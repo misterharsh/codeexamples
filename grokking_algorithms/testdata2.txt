@@ -1,9 +1,0 @@
-Book,Piano
-Book,Rare LP,5
-Book,Poster,0
-Rare LP,Bass Guitar,15
-Rare LP,Drum Set,20
-Poster,Drum Set,30
-Poster,Bass Guitar,30
-Drum Set,Piano,10
-Bass Guitar,Piano,20
