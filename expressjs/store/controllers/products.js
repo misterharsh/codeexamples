@@ -4,9 +4,12 @@ const getAll = async (req, res) => {
   const { name, featured, company, sort, fields, numericFilters } = req.query;
   const queryObj = {};
 
+  // regex used as substring check
   if (name) queryObj.name = { $regex: name, $options: "i" };
+  // need to convert string to bool
   if (featured) queryObj.featured = featured == "true" ? true : false;
   if (company) queryObj.company = company;
+
   if (numericFilters) {
     operatorMap = {
       "<": "$lt",
