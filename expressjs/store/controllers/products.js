@@ -1,12 +1,33 @@
 const Product = require("../models/Product");
 
 const getAll = async (req, res) => {
-  const { name, featured, company, sort, fields } = req.query;
+  const { name, featured, company, sort, fields, numericFilters } = req.query;
   const queryObj = {};
 
   if (name) queryObj.name = { $regex: name, $options: "i" };
   if (featured) queryObj.featured = featured == "true" ? true : false;
   if (company) queryObj.company = company;
+  if (numericFilters) {
+    operatorMap = {
+      "<": "$lt",
+      "<=": "$lte",
+      "=": "$e",
+      ">": "$gt",
+      ">=": "$gte",
+    };
+    const regex = /\b(<|>|<=|>=|=)\b/g;
+    let filters = numericFilters.replace(
+      regex,
+      (match) => `-${operatorMap[match]}-`
+    );
+    const options = ["price", "rating"];
+    filters = filters.split(",").forEach((element) => {
+      const [key, op, value] = element.split("-");
+      if (options.includes(key)) {
+        queryObj[key] = { [op]: Number(value) };
+      }
+    });
+  }
 
   let result = Product.find(queryObj);
 
