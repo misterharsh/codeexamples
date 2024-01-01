@@ -4,7 +4,7 @@ const app = express();
 const { connectToDB } = require("./db/connection");
 
 // globals
-const port = 3000;
+const port = process.env.PORT || 3000;
 const version = "/v1";
 const prefix = "/api" + version;
 
