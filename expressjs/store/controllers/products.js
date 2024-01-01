@@ -23,6 +23,14 @@ const getAll = async (req, res) => {
     result = result.select(fieldsList);
   }
 
+  // pagination
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  result = result.skip(skip).limit(limit);
+
+  // resolving chained promise
   const products = await result;
   res.status(200).json({ meta: { count: products.length }, data: products });
 };
